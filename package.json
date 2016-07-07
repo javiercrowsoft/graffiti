@@ -1,6 +1,6 @@
 {
   "name": "@javiercrowsoft/graffiti",
-  "version": "3.0.9",
+  "version": "3.0.10",
   "description": "Hapi plugin for GraphQL",
   "main": "lib/index.js",
   "scripts": {
