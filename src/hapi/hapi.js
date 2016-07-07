@@ -16,52 +16,67 @@ function accepts({ headers }, type) {
 }
 
 const plugin = {
-  register: (server, { graphiql = true, schema = required() } = {}, next) => {
+  register: (
+    server,
+    { graphiql = true, schema = required(),
+      getSessionData = required(),
+      authSettings = required() } = {},
+    next) => {
     const handler = (request, reply) => {
-      const data = request.payload || request.query || {};
-      const { query, variables } = data;
+      return getSessionData(request, reply, (err) => {
+        if (err) return reply(err);
 
-      if (accepts(request, 'html') && graphiql) {
-        return reply(renderGraphiQL({ query, variables }));
-      }
+        const data = request.payload || request.query || {};
+        const { query, variables } = data;
 
-      if (query && query.includes('mutation') && isGet(request)) {
-        return reply(methodNotAllowed('GraphQL mutation only allowed in POST request.'));
-      }
+        if (accepts(request, 'html') && graphiql) {
+          return reply(renderGraphiQL({ query, variables }));
+        }
 
-      let parsedVariables = variables;
-      try {
-        parsedVariables = JSON.parse(variables);
-      } catch (err) {
-        // ignore
-      }
+        if (query && query.includes('mutation') && isGet(request)) {
+          return reply(methodNotAllowed('GraphQL mutation only allowed in POST request.'));
+        }
 
-      return graphql(schema, query, request, request, parsedVariables)
-        .then((result) => {
-          if (result.errors) {
-            const message = result.errors.map((error) => error.message).join('\n');
-            reply(badRequest(message));
-            return;
-          }
+        let parsedVariables = variables;
+        try {
+          parsedVariables = JSON.parse(variables);
+        } catch (err) {
+          // ignore
+        }
 
-          reply(result);
-        })
-        .catch((err) => {
-          reply(badRequest(err));
-        });
+        return graphql(schema, query, request, request, parsedVariables)
+          .then((result) => {
+            if (result.errors) {
+              const message = result.errors.map((error) => error.message).join('\n');
+              reply(badRequest(message));
+              return;
+            }
+
+            reply(result);
+          })
+          .catch((err) => {
+            reply(badRequest(err));
+          });
+      });
     };
 
     server.route({
       method: 'POST',
       path: '/graphql',
-      handler
+      config: {
+        handler: handler,
+        auth: authSettings // { mode: 'try', strategy: 'session' }
+      }
     });
 
     if (graphiql) {
       server.route({
         method: 'GET',
         path: '/graphql',
-        handler
+        config: {
+          handler: handler,
+          auth: authSettings // { mode: 'try', strategy: 'session' }
+        }
       });
     }
 

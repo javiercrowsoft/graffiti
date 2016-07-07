@@ -14,10 +14,14 @@ server.ext('onRequest', function redirect(request, reply) {
   reply.redirect('/graphql');
 });
 
+const getSessionData = (request, reply, next) => { next(); };
+
 server.register({
   register: graffiti.hapi,
   options: {
-    schema
+    schema,
+    getSessionData,
+    false
   }
 }, (err) => {
   if (err) {

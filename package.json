@@ -1,7 +1,7 @@
 {
-  "name": "@risingstack/graffiti",
-  "version": "3.0.4",
-  "description": "Mongoose adapter for graffiti (Node.js GraphQL ORM)",
+  "name": "@javiercrowsoft/graffiti",
+  "version": "3.0.9",
+  "description": "Hapi plugin for GraphQL",
   "main": "lib/index.js",
   "scripts": {
     "test": "NODE_ENV=test mocha --compilers js:babel-register --require babel-polyfill --require co-mocha 'src/**/*.spec.js'",
@@ -9,10 +9,10 @@
     "prepublish": "npm test && npm run build",
     "build": "rm -rf lib/* && babel src --ignore *.spec.js --out-dir lib"
   },
-  "author": "RisingStack",
+  "author": "Javier Alvarez",
   "repository": {
     "type": "git",
-    "url": "git@github.com:RisingStack/graffiti.git"
+    "url": "git@github.com:javiercrowsoft/graffiti.git"
   },
   "license": "MIT",
   "keywords": [
@@ -31,7 +31,7 @@
     "boom": "3.1.2"
   },
   "peerDependencies": {
-    "graphql": "^0.5.0"
+    "graphql": "^0.6.0"
   },
   "devDependencies": {
     "babel": "6.5.2",
@@ -49,7 +49,7 @@
     "eslint-plugin-import": "1.6.1",
     "eslint-plugin-react": "5.0.1",
     "express": "4.13.4",
-    "graphql": "0.5.0",
+    "graphql": "0.6.0",
     "hapi": "13.3.0",
     "koa": "2.0.0-alpha.2",
     "mocha": "2.4.5",

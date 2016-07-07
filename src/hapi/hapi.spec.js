@@ -3,6 +3,9 @@ import { Server } from 'hapi';
 import hapi from './';
 
 describe('graffiti hapi', () => {
+
+  const getSessionData = (request, reply, next) => { next(); };
+
   describe('checks for required options', () => {
     it('should throw an error if not all met', () => {
       const mwFactory = hapi;
@@ -23,7 +26,9 @@ describe('graffiti hapi', () => {
       server.register({
         register: hapi,
         options: {
-          schema: this.schema
+          schema: this.schema,
+          getSessionData: getSessionData,
+          authSettings: false
         }
       }, (err) => {
         if (err) {
@@ -48,7 +53,9 @@ describe('graffiti hapi', () => {
       server.register({
         register: hapi,
         options: {
-          schema: this.schema
+          schema: this.schema,
+          getSessionData: getSessionData,
+          authSettings: false
         }
       }, (err) => {
         if (err) {
@@ -75,7 +82,9 @@ describe('graffiti hapi', () => {
       server.register({
         register: hapi,
         options: {
-          schema: this.schema
+          schema: this.schema,
+          getSessionData: getSessionData,
+          authSettings: false
         }
       }, (err) => {
         if (err) {
@@ -106,7 +115,9 @@ describe('graffiti hapi', () => {
       server.register({
         register: hapi,
         options: {
-          schema: this.schema
+          schema: this.schema,
+          getSessionData: getSessionData,
+          authSettings: false
         }
       }, (err) => {
         if (err) {
@@ -137,7 +148,9 @@ describe('graffiti hapi', () => {
       server.register({
         register: hapi,
         options: {
-          schema: this.schema
+          schema: this.schema,
+          getSessionData: getSessionData,
+          authSettings: false
         }
       }, (err) => {
         if (err) {
@@ -166,7 +179,9 @@ describe('graffiti hapi', () => {
         register: hapi,
         options: {
           schema: this.schema,
-          graphiql: false
+          graphiql: false,
+          getSessionData: getSessionData,
+          authSettings: false
         }
       }, (err) => {
         if (err) {
