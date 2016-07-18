@@ -1,9 +1,9 @@
 export function isGet(request) {
-  return request.method === 'GET';
+  return request.method.toLowerCase() === 'get';
 }
 
 export function isPost(request) {
-  return request.method === 'POST';
+  return request.method.toLowerCase() === 'post';
 }
 
 export function isPath(request) {

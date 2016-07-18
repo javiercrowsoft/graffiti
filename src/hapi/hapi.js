@@ -47,9 +47,15 @@ const plugin = {
         return graphql(schema, query, request, request, parsedVariables)
           .then((result) => {
             if (result.errors) {
-              const message = result.errors.map((error) => error.message).join('\n');
-              reply(badRequest(message));
-              return;
+              // const message = result.errors.map((error) => error.message).join('\n');
+              // reply(badRequest(message));
+              // return;
+              result.errors = result.errors.map( (error) => {
+                return {
+                  message: error.message,
+                  locations: error.locations
+                }
+              } );
             }
 
             reply(result);
